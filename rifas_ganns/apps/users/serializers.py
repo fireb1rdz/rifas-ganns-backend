@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from .models import Address, Email, Phone, SocialMedia
+from apps.configurations.serializers import UserConfigurationSerializer
+from apps.finances.serializers import UserBalanceSerializer
+from apps.raffles.serializers import UserQuotaSerializer
 
 User = get_user_model()
-
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,15 +35,35 @@ class UserSerializer(serializers.ModelSerializer):
     emails = EmailSerializer(many=True, read_only=True)
     phones = PhoneSerializer(many=True, read_only=True)
     social_medias = SocialMediaSerializer(many=True, read_only=True)
+    configuration = UserConfigurationSerializer(read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "id", "username", "email", "cpf", "birth_date", "lucky_number",
+            "profile_picture", "bio", "is_verified",
+            "addresses", "emails", "phones", "social_medias", "configuration"
+        ]
+        read_only_fields = ["id", "balance", "is_verified"]
+        
+class UserDetailSerializer(serializers.ModelSerializer):
+    addresses = AddressSerializer(many=True, read_only=True)
+    emails = EmailSerializer(many=True, read_only=True)
+    phones = PhoneSerializer(many=True, read_only=True)
+    social_medias = SocialMediaSerializer(read_only=True)
+    configuration = UserConfigurationSerializer(read_only=True)
+    balance = UserBalanceSerializer(read_only=True)
+    quotas = UserQuotaSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
         fields = [
             "id", "username", "email", "cpf", "birth_date", "lucky_number",
             "balance", "profile_picture", "bio", "is_verified",
-            "addresses", "emails", "phones", "social_medias"
+            "addresses", "emails", "phones", "social_medias", "configuration", "balance", "quotas"
         ]
-        read_only_fields = ["id", "balance", "is_verified"]
+        read_only_fields = ["id", "balance", "is_verified", "quotas"]
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])

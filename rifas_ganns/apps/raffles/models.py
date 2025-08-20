@@ -8,11 +8,15 @@ class Raffle(models.Model):
     draw_date = models.DateTimeField(null=True, blank=True)
     prize_value = models.DecimalField(max_digits=10, decimal_places=2)
     quota_value = models.DecimalField(max_digits=10, decimal_places=2)
+    quota_count = models.IntegerField()
     winner = models.ForeignKey(User, related_name='prizes', on_delete=models.SET_NULL, null=True, blank=True)
     awarded_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
+    @property
+    def available_quotas(self):
+        return self.quota_count - self.quotas.count()
     
     class Meta:
         verbose_name = 'Raffle'
@@ -20,6 +24,7 @@ class Raffle(models.Model):
         ordering = ['-draw_date']
 
 class Quota(models.Model):
+    id = models.BigAutoField(primary_key=True)
     raffle = models.ForeignKey(Raffle, related_name='quotas', on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
     owner = models.ForeignKey(User, related_name='quotas', on_delete=models.CASCADE)

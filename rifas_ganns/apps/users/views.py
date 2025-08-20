@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import User
-from .serializers import UserSerializer, UserCreateSerializer
+from .serializers import UserSerializer, UserCreateSerializer, UserDetailSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -17,6 +17,8 @@ class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'create':
             return UserCreateSerializer
+        elif self.action == 'me':
+            return UserDetailSerializer
         return UserSerializer
 
     def get_permissions(self):

@@ -7,7 +7,7 @@ User = get_user_model()
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']  # Exemplo básico, pode expandir
+        fields = ['id', 'username']
 
 class RafflePictureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,15 +20,33 @@ class QuotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quota
         fields = ['id', 'number', 'owner', 'bought_at', 'is_winner']
+        
+class UserQuotaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quota
+        exclude = ["owner"]
 
 class RaffleSerializer(serializers.ModelSerializer):
-    winner = UserSimpleSerializer(read_only=True)
-    quotas = QuotaSerializer(many=True, read_only=True)
     pictures = RafflePictureSerializer(many=True, read_only=True)
 
     class Meta:
         model = Raffle
         fields = [
-            'id', 'title', 'description', 'created_at', 'draw_date', 'prize_value', 'quota_value',
-            'winner', 'awarded_at', 'quotas', 'pictures'
+            'id', 'title', 'description','draw_date', 'prize_value', 'quota_value', 'quotas', 'pictures'
         ]
+        
+class RaffleDetailSerializer(serializers.ModelSerializer):
+    pictures = RafflePictureSerializer(many=True, read_only=True)
+    class Meta:
+        model = Raffle
+        fields = [
+            "title", "description", "created_at", "draw_date", "prize_value",
+            "quota_value", "winner", "awarded_at", "quota_count", "quotas", "pictures"
+        ]
+        
+class RaffleQuotaCountSerializer(serializers.ModelSerializer):
+    used_quotas = serializers.IntegerField(source="quotas.count", read_only=True)
+    available_quotas = serializers.IntegerField()
+    class Meta:
+        model = Raffle
+        fields = ["quota_count", "used_quotas", "available_quotas"]
