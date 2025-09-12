@@ -2,12 +2,18 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
+    SCOPE_CHOICES = [
+        ('client', 'Cliente'),
+        ('admin', 'Admin'),
+        ('seller', 'Vendedor'),
+    ]
     cpf = models.CharField(max_length=11, unique=True, blank=True, null=True, verbose_name="CPF")
     birth_date = models.DateField(blank=True, null=True, verbose_name="Data de nascimento")
     lucky_number = models.PositiveIntegerField(blank=True, null=True, verbose_name="Número da sorte")
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, verbose_name="Foto de perfil")
     bio = models.TextField(blank=True, null=True, verbose_name="Biografia")
     is_verified = models.BooleanField(default=False, verbose_name="Verificado")
+    scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default='client', verbose_name="Escopo")
 
     def __str__(self):
         return self.username

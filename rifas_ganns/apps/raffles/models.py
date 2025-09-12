@@ -11,9 +11,29 @@ class Raffle(models.Model):
     quota_count = models.IntegerField()
     winner = models.ForeignKey(User, related_name='prizes', on_delete=models.SET_NULL, null=True, blank=True)
     awarded_at = models.DateTimeField(null=True, blank=True)
+    percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0) 
+    created_by = models.ForeignKey(User, related_name='created_raffles', on_delete=models.PROTECT, verbose_name="Usuário")
 
     def __str__(self):
         return self.title
+    
+    def update_percentage(self, *args: float):
+        """Atualiza a porcentagem de cotas vendidas com base no número de cotas vendidas e no total de cotas disponíveis.
+        Se um valor específico for fornecido como argumento, ele será usado para atualizar a porcentagem diretamente.
+        """
+        if args:
+            self.percentage = args[0]
+            self.save()
+            return
+        self.percentage = self.current_quota_percentage
+        self.save()
+            
+    def current_quota_percentage(self):
+        """Calcula a porcentagem atual de cotas vendidas com base no número de cotas vendidas e no total de cotas disponíveis."""
+        if self.quota_count > 0:
+            return (self.quotas.count() / self.quota_count) * 100
+        return 0.0
+            
     @property
     def available_quotas(self):
         return self.quota_count - self.quotas.count()

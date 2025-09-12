@@ -30,10 +30,10 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("username",)
     inlines = [EmailInline, AddressInline, PhoneInline, SocialMediaInline, UserConfigurationInline]
     fieldsets = UserAdmin.fieldsets + (
-        (None, {"fields": ("cpf", "birth_date", "is_verified", "profile_picture", "bio")}),
+        (None, {"fields": ("cpf", "birth_date", "is_verified", "profile_picture", "bio", "scope")}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {"fields": ("cpf", "birth_date", "is_verified", "profile_picture", "bio")}),
+        (None, {"fields": ("cpf", "birth_date", "is_verified", "profile_picture", "bio", "scope")}),
     )
     
 
