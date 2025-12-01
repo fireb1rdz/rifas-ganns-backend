@@ -1,0 +1,29 @@
+services:
+ django-web:
+   build: 
+     context: .
+     dockerfile: ${DOCKERFILE}
+   container_name: ${CONTAINER_NAME}
+   ports:
+     - "8000:8000"
+   volumes:
+      - .:/app  
+
+   environment:
+     DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+
+   env_file:
+     - .env
+    
+   depends_on:
+   - redis
+
+ redis:
+  image: redis:8.2.2-alpine
+  container_name: redis_server
+  ports:
+    - "6379:6379"
+  volumes:
+    - redisdata:/data
+volumes:
+  redisdata:
