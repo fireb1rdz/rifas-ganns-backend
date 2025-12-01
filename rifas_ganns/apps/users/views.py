@@ -1,15 +1,35 @@
-from rest_framework import generics, permissions
+from rest_framework.viewsets import ModelViewSet
 from .models import User
-from .serializers import UserSerializer, UserCreateSerializer
+from .serializers import UserSerializer, UserCreateSerializer, UserDetailSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from django.contrib.auth import get_user_model
 
-class UserCreateView(generics.CreateAPIView):
+User = get_user_model()
+
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserCreateSerializer
-    permission_classes = [permissions.AllowAny]
-
-class UserDetailView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_object(self):
-        return self.request.user
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return UserCreateSerializer
+        elif self.action == 'me':
+            return UserDetailSerializer
+        return UserSerializer
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        elif self.action == 'me':
+            return [IsAuthenticated()]
+        return super().get_permissions()
+
+    # Endpoint customizado para o usuário logado
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)

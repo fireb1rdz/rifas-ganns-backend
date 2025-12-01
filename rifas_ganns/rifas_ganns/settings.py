@@ -45,10 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users', 
+    'apps.users',
+    'apps.configurations',
+    'apps.raffles', 
+    'apps.finances',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -121,10 +125,13 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = 'static/'
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MEDIA_URL = '/media/'                 # URL pública para acessar arquivos de mídia
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Diretório físico onde os arquivos serão salvos
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -137,9 +144,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # exige login por padrão
-    ]
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 CORS_ALLOWED_ORIGINS = [
