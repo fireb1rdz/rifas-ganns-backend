@@ -14,9 +14,15 @@ class User(AbstractUser):
     bio = models.TextField(blank=True, null=True, verbose_name="Biografia")
     is_verified = models.BooleanField(default=False, verbose_name="Verificado")
     scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default='client', verbose_name="Escopo")
+    slug = models.SlugField(unique=True, blank=True, null=True, verbose_name="Slug")
 
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.username.lower().replace(' ', '-')
+        super().save(*args, **kwargs)
     
 class Address(models.Model):
     STATE_CHOICES = [

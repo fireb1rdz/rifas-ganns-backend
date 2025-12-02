@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Raffle, Quota, RafflePicture
+from .models import Raffle, Quota, RafflePicture, RaffleSellerPaymentLink
 
 @admin.register(Raffle)
 class RaffleAdmin(admin.ModelAdmin):
@@ -23,3 +23,11 @@ class RafflePictureAdmin(admin.ModelAdmin):
     list_filter = ('main', 'uploaded_at')
     readonly_fields = ('uploaded_at',)
     ordering = ('-uploaded_at',)
+
+@admin.register(RaffleSellerPaymentLink)
+class RaffleSellerPaymentLinkAdmin(admin.ModelAdmin):
+    list_display = ('raffle', 'seller', 'payment_link', 'created_at')
+    list_filter = ('raffle', 'created_at')
+    search_fields = ('raffle__title', 'seller__username')
+    readonly_fields = ('created_at',)
+    ordering = ('-created_at',)

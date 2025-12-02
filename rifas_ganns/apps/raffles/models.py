@@ -48,6 +48,7 @@ class Quota(models.Model):
     raffle = models.ForeignKey(Raffle, related_name='quotas', on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
     owner = models.ForeignKey(User, related_name='quotas', on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, related_name='sold_quotas', on_delete=models.SET_NULL, null=True, blank=True)
     bought_at = models.DateTimeField(auto_now_add=True)
     is_winner = models.BooleanField(default=False)
     
@@ -71,3 +72,16 @@ class RafflePicture(models.Model):
     class Meta:
         verbose_name = 'Raffle Picture'
         verbose_name_plural = 'Raffle Pictures'
+
+class RaffleSellerPaymentLink(models.Model):
+    raffle = models.ForeignKey(Raffle, related_name='seller_payment_links', on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, related_name='raffle_payment_links', on_delete=models.CASCADE)
+    payment_link = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Payment Link for {self.seller.username} in {self.raffle.title}'
+    
+    class Meta:
+        verbose_name = 'Raffle Seller Payment Link'
+        verbose_name_plural = 'Raffle Seller Payment Links'

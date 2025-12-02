@@ -45,3 +45,4 @@ class RaffleViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Configuration not found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = RaffleConfigurationSerializer(instance=config)
         return Response(serializer.data)
+    
