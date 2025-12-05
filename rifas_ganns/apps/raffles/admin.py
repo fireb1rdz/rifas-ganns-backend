@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Raffle, Quota, RafflePicture, RaffleSellerPaymentLink
+from .models import Raffle, Quota, RafflePicture, RafflePrize, Prize, PrizePicture
 
 @admin.register(Raffle)
 class RaffleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'draw_date', 'prize_value', 'quota_value', 'winner', 'awarded_at')
+    list_display = ('title', 'draw_date', 'quota_value', 'winner', 'awarded_at')
     list_filter = ('draw_date', 'awarded_at')
     search_fields = ('title',)
     readonly_fields = ('created_at',)
@@ -24,10 +24,13 @@ class RafflePictureAdmin(admin.ModelAdmin):
     readonly_fields = ('uploaded_at',)
     ordering = ('-uploaded_at',)
 
-@admin.register(RaffleSellerPaymentLink)
-class RaffleSellerPaymentLinkAdmin(admin.ModelAdmin):
-    list_display = ('raffle', 'seller', 'payment_link', 'created_at')
-    list_filter = ('raffle', 'created_at')
-    search_fields = ('raffle__title', 'seller__username')
-    readonly_fields = ('created_at',)
-    ordering = ('-created_at',)
+@admin.register(RafflePrize)
+class RafflePrizeAdmin(admin.ModelAdmin):
+    list_display = ["raffle", "prize", "main", "roulette"]
+    list_max_show_all = 50
+    list_filter = ["main", "roulette"]
+
+@admin.register(Prize)
+class PrizeAdmin(admin.ModelAdmin):
+    list_display = ["name", "description", "value", "minimum_selling_value"]
+    list_max_show_all = 50

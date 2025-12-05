@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Raffle, Quota, RafflePicture
+from .models import Raffle, Quota, RafflePicture, Prize, PrizePicture
 from apps.configurations.models import RaffleConfiguration
+from apps.configurations.serializers import RaffleConfigurationSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -27,13 +28,20 @@ class UserQuotaSerializer(serializers.ModelSerializer):
         model = Quota
         exclude = ["owner"]
 
+class PrizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prize
+        fields = "__all__"
+
 class RaffleSerializer(serializers.ModelSerializer):
     pictures = RafflePictureSerializer(many=True, read_only=True)
+    prizes = PrizeSerializer(read_only=True, many=True)
+    created_by = UserSimpleSerializer(read_only=True)
 
     class Meta:
         model = Raffle
         fields = [
-            'id', 'title', 'description','draw_date', 'prize_value', 'quota_value', 'pictures', 'created_at', 'created_by'
+            'id', 'title', 'description','draw_date', 'prizes', 'quota_value', 'pictures', 'created_at', 'created_by'
         ]
         
 class RaffleDetailSerializer(serializers.ModelSerializer):
@@ -52,3 +60,9 @@ class RaffleQuotaCountSerializer(serializers.ModelSerializer):
         model = Raffle
         fields = ["quota_count", "used_quotas", "available_quotas"]
         
+class PrizePictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrizePicture
+        fields = "__all__"
+
+

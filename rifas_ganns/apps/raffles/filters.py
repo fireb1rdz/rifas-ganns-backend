@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Raffle
+from .models import Raffle, Prize
 
 class RaffleFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr="icontains")
@@ -14,3 +14,14 @@ class RaffleFilter(filters.FilterSet):
         model = Raffle
         fields = ["title", "description", "created_at",
                   "draw_date", "prize_value", "quota_value", "created_by"]
+        
+class PrizeFilter(filters.FilterSet):
+    name = filters.CharFilter(lookup_expr="icontains")
+    description = filters.CharFilter(lookup_expr="icontains")
+    value = filters.RangeFilter()
+    minimum_selling_value = filters.RangeFilter()
+    
+    class Meta:
+        model = Raffle
+        fields = ["name", "description", "value",
+                  "minimum_selling_value"]

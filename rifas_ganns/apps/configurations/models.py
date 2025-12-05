@@ -9,9 +9,12 @@ class UserConfiguration(models.Model):
         DARK = "DK", _("DARK")
     user = models.OneToOneField(User, related_name="configuration", on_delete=models.PROTECT)
     theme = models.CharField(max_length=2, choices=ThemeChoices, default=ThemeChoices.LIGHT)
-    
+    class Meta:
+        verbose_name = 'Configuração do usuário'
+        verbose_name_plural = 'Configurações dos usuários'
 class RaffleConfiguration(models.Model):
     raffle = models.OneToOneField(Raffle, related_name="configuration", on_delete=models.CASCADE)
     notify_winner_by_email = models.BooleanField(default=True)
-    use_manual_percentage = models.BooleanField(default=False)
-    
+    class Meta:
+        verbose_name = 'Configuração da rifa'
+        verbose_name_plural = 'Configurações das rifas'

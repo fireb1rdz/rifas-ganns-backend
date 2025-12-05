@@ -15,6 +15,7 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False, verbose_name="Verificado")
     scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default='client', verbose_name="Escopo")
     slug = models.SlugField(unique=True, blank=True, null=True, verbose_name="Slug")
+    stripe_id = models.CharField(max_length=50)
 
     def __str__(self):
         return self.username
@@ -59,6 +60,8 @@ class Address(models.Model):
     state = models.CharField(max_length=100, choices=STATE_CHOICES, verbose_name="Estado")
     zip_code = models.CharField(max_length=20, verbose_name="CEP")
     country = models.CharField(max_length=100, verbose_name="País")
+    email = models.EmailField(verbose_name="Email de contato")
+    phone = models.CharField(max_length=15, verbose_name="Telefone de contato")
 
     def __str__(self):
         return f'{self.street}, {self.city}, {self.state}, {self.country}'
@@ -66,32 +69,6 @@ class Address(models.Model):
     class Meta:
         verbose_name = 'Endereço'
         verbose_name_plural = 'Endereços'
-        
-class Phone(models.Model):
-    user = models.ForeignKey(User, related_name='phones', on_delete=models.CASCADE, verbose_name="Usuario")
-    number = models.CharField(max_length=15, verbose_name="Número")
-    description = models.CharField(max_length=100, blank=True, null=True, verbose_name="Descrição")
-
-    def __str__(self):
-        return self.number
-
-    class Meta:
-        verbose_name = 'Telefone'
-        verbose_name_plural = 'Telefones'
-        unique_together = ('user', 'number')
-
-class Email(models.Model):
-    user = models.ForeignKey(User, related_name='emails', on_delete=models.CASCADE, verbose_name="Usuário")
-    address = models.EmailField(unique=True, verbose_name="Endereço")
-    description = models.CharField(max_length=100, blank=True, null=True, verbose_name="Descrição")
-
-    def __str__(self):
-        return self.address
-
-    class Meta:
-        verbose_name = 'Email'
-        verbose_name_plural = 'Emails'
-        unique_together = ('user', 'address')
         
 class SocialMedia(models.Model):
     user = models.OneToOneField(User, related_name='social_medias', on_delete=models.CASCADE, unique=True, verbose_name="Usuário")
