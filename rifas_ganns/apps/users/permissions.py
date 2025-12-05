@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsOwnerOnly(permissions.BasePermission):
+class IsSellerOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.created_by == request.user
+        return request.user.scope == "seller"
     

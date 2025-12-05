@@ -20,7 +20,7 @@ services:
 
  redis:
   image: redis:8.2.2-alpine
-  container_name: redis_server
+  container_name: redis_server_${CONTAINER_NAME}
   ports:
     - "6379:6379"
   volumes:
