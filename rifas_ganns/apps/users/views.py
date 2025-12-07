@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
-from apps.finances.stripe_handler import Stripe
+from apps.finances.services.stripe import Stripe
 
 User = get_user_model()
 
@@ -35,10 +35,10 @@ class UserViewSet(ModelViewSet):
         serialized_data = serializer(data=request.data)
         serialized_data.is_valid(raise_exception=True)
         user = serialized_data.save()
-        user_name = serialized_data.validated_data["username"]
-        user_email = serialized_data.validated_data["email"]
         stripe = Stripe()
-        response = stripe.create_customer(name=user_name, email=user_email)
+        response = stripe.create_customer(
+            name=serialized_data.validated_data["username"], 
+            email=serialized_data.validated_data["email"])
         user.stripe_id = response.id
         user.save()
         return Response(serializer(user).data)

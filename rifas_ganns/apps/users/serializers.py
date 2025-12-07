@@ -44,7 +44,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = [
             "id", "username", "email", "cpf", "birth_date", "lucky_number",
             "balance", "profile_picture", "bio", "is_verified",
-            "addresses", "social_medias", "configuration", "balance", "quotas", "stripe_id"
+            "addresses", "social_medias", "configuration", "balance", "quotas"
         ]
         read_only_fields = ["id", "balance", "is_verified", "quotas"]
 
@@ -70,6 +70,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError({"password": "As senhas não coincidem."})
         return attrs
+
+    def validate_cpf(self, value):
+        if User.objects.filter(cpf=value).exists():
+            raise serializers.ValidationError("CPF already in use.")
+        return value
 
     def create(self, validated_data):
         addresses_data = validated_data.pop("addresses", [])

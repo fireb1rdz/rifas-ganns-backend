@@ -18,3 +18,14 @@ class RaffleConfiguration(models.Model):
     class Meta:
         verbose_name = 'Configuração da rifa'
         verbose_name_plural = 'Configurações das rifas'
+
+class GatewayConfiguration(models.Model):
+    class GATEWAY_CHOICES(models.TextChoices):
+        STRIPE = "ST", _("STRIPE")
+        PAGARME = "PG", _("PAGARME")
+    name = models.CharField(max_length=255, choices=GATEWAY_CHOICES.choices)
+    active = models.BooleanField(default=False)
+    test_api_key = models.CharField(max_length=255, null=True, blank=True)
+    production_api_key = models.CharField(max_length=255, null=True, blank=True)
+    customer_endpoint = models.URLField()
+    payment_endpoint = models.URLField()

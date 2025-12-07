@@ -46,10 +46,11 @@ class RaffleSerializer(serializers.ModelSerializer):
         
 class RaffleDetailSerializer(serializers.ModelSerializer):
     pictures = RafflePictureSerializer(many=True, read_only=True)
+    prizes = PrizeSerializer(read_only=True, many=True)
     class Meta:
         model = Raffle
         fields = [
-            "title", "description", "created_at", "draw_date", "prize_value",
+            "title", "description", "created_at", "draw_date", "prizes",
             "quota_value", "winner", "awarded_at", "quota_count", "pictures"
         ]
         
