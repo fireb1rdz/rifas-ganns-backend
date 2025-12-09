@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ${DOCKERFILE}
     container_name: ${CONTAINER_NAME}
-    command: gunicorn rifas_ganns.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn rifas_ganns.rifas_ganns.wsgi:application --bind 0.0.0.0:8000
     expose:
       - "8000"
     volumes:
