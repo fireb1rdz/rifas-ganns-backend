@@ -59,7 +59,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "username", "email", "cpf", "birth_date", "lucky_number",
+            "name", "email", "cpf", "birth_date", "lucky_number",
             "balance", "profile_picture", "bio", "is_verified",
             "password", "password2",
             "addresses", "social_medias", "scope"
@@ -69,6 +69,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError({"password": "As senhas não coincidem."})
+        attrs["username"] = attrs["name"]
         return attrs
 
     def validate_cpf(self, value):

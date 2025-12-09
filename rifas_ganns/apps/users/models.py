@@ -7,6 +7,7 @@ class User(AbstractUser):
         ('admin', 'Admin'),
         ('seller', 'Vendedor'),
     ]
+    name = models.CharField(max_length=255)
     cpf = models.CharField(max_length=11, unique=True, blank=True, null=True, verbose_name="CPF")
     birth_date = models.DateField(blank=True, null=True, verbose_name="Data de nascimento")
     lucky_number = models.PositiveIntegerField(blank=True, null=True, verbose_name="Número da sorte")
@@ -15,7 +16,7 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False, verbose_name="Verificado")
     scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default='client', verbose_name="Escopo")
     slug = models.SlugField(unique=True, blank=True, null=True, verbose_name="Slug")
-    stripe_id = models.CharField(max_length=50)
+    gateway_id = models.CharField(max_length=50)
 
     def __str__(self):
         return self.username
