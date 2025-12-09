@@ -13,4 +13,5 @@ COPY . /app/
 # Collect static (caso tenha)
 # RUN python rifas_ganns/manage.py collectstatic --noinput
 
-CMD ["gunicorn", "rifas_ganns.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "rifas_ganns.rifas_ganns.wsgi:application", "--bind", "0.0.0.0:8000"]
+
