@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rifas_ganns.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rifas_ganns.rifas_ganns.settings')
 
 application = get_wsgi_application()
