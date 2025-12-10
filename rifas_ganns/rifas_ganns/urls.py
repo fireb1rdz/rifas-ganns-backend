@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from apps.users.views import UserViewSet
-from apps.raffles.views import RaffleViewSet
+from rifas_ganns.apps.users.views import UserViewSet
+from rifas_ganns.apps.raffles.views import RaffleViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
