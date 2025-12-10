@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Address, SocialMedia
-from apps.configurations.models import UserConfiguration
+from rifas_ganns.apps.configurations.models import UserConfiguration
 class AddressInline(admin.TabularInline):
     model = Address
     extra = 1

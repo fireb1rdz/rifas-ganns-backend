@@ -2,9 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from .models import Address, SocialMedia
-from apps.configurations.serializers import UserConfigurationSerializer
-from apps.finances.serializers import UserBalanceSerializer
-from apps.raffles.serializers import UserQuotaSerializer
+from rifas_ganns.apps.configurations.serializers import UserConfigurationSerializer
+from rifas_ganns.apps.finances.serializers import UserBalanceSerializer
+from rifas_ganns.apps.raffles.serializers import UserQuotaSerializer
 
 
 User = get_user_model()

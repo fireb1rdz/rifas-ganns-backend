@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import UserConfiguration
-from apps.configurations.models import RaffleConfiguration
+from rifas_ganns.apps.configurations.models import RaffleConfiguration
 
 class UserConfigurationSerializer(serializers.ModelSerializer):
     class Meta:

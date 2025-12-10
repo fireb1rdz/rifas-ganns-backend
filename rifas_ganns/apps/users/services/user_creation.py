@@ -1,7 +1,7 @@
-from apps.users.serializers import UserCreateSerializer
-from apps.users.models import User
-from apps.finances.services.gateways.factory import GatewayFactory
-from apps.configurations.models import GatewayConfiguration
+from rifas_ganns.apps.users.serializers import UserCreateSerializer
+from rifas_ganns.apps.users.models import User
+from rifas_ganns.apps.finances.services.gateways.factory import GatewayFactory
+from rifas_ganns.apps.configurations.models import GatewayConfiguration
 
 class UserCreationService:
     @staticmethod

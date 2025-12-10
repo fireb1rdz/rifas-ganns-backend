@@ -1,7 +1,7 @@
 from django.db import models
-from apps.users.models import User
+from rifas_ganns.apps.users.models import User
 from django.utils.translation import gettext_lazy as _
-from apps.raffles.models import Raffle
+from rifas_ganns.apps.raffles.models import Raffle
 
 
 class UserConfiguration(models.Model):

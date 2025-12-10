@@ -4,12 +4,12 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from .permissions import IsOwnerOnly
-from apps.users.permissions import IsSellerOnly
+from rifas_ganns.apps.users.permissions import IsSellerOnly
 from .models import Raffle, Prize
 from .serializers import RaffleSerializer, RaffleDetailSerializer, RaffleQuotaCountSerializer, PrizeSerializer
 from .filters import RaffleFilter
-from apps.configurations.serializers import RaffleConfigurationSerializer
-from apps.configurations.models import RaffleConfiguration
+from rifas_ganns.apps.configurations.serializers import RaffleConfigurationSerializer
+from rifas_ganns.apps.configurations.models import RaffleConfiguration
 
 class RafflePagination(PageNumberPagination):
     page_size = 10  # itens por página

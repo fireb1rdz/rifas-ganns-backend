@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Raffle, Quota, RafflePicture, Prize, PrizePicture
-from apps.configurations.models import RaffleConfiguration
-from apps.configurations.serializers import RaffleConfigurationSerializer
+from rifas_ganns.apps.configurations.models import RaffleConfiguration
+from rifas_ganns.apps.configurations.serializers import RaffleConfigurationSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

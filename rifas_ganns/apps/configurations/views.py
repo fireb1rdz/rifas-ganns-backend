@@ -1,5 +1,5 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, pagination, exceptions
-from apps.configurations.models import RaffleConfiguration, UserConfiguration
-from apps.configurations.serializers import RaffleConfigurationSerializer, UserConfigurationSerializer
-from apps.users.permissions import IsSellerOnly
+from rifas_ganns.apps.configurations.models import RaffleConfiguration, UserConfiguration
+from rifas_ganns.apps.configurations.serializers import RaffleConfigurationSerializer, UserConfigurationSerializer
+from rifas_ganns.apps.users.permissions import IsSellerOnly

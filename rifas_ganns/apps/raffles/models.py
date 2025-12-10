@@ -1,5 +1,5 @@
 from django.db import models
-from apps.users.models import User
+from rifas_ganns.apps.users.models import User
 
 class Prize(models.Model):
     name = models.CharField(max_length=255)
