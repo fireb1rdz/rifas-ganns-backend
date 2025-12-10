@@ -1,8 +1,8 @@
 import stripe
-from rifas_ganns.settings import env
+from rifas_ganns.rifas_ganns.settings import env
 from .factory import auto_register
 from .base import BaseGateway
-from apps.configurations.models import GatewayRequiredCustomerFields
+from rifas_ganns.apps.configurations.models import GatewayRequiredCustomerFields
 
 @auto_register("stripe")
 class StripeGateway(BaseGateway):
@@ -26,5 +26,6 @@ class StripeGateway(BaseGateway):
     def create_product(self, *args, **kwargs):
         product = self.stripe.Product.create(**kwargs)
         return product.id
+    
     
     
