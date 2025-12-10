@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'rifas_ganns.urls'
+ROOT_URLCONF = 'rifas_ganns.rifas_ganns.urls'
 
 TEMPLATES = [
     {
